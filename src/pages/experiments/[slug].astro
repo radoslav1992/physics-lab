@@ -1,0 +1,6 @@
+---
+import Layout from '../../layouts/Layout.astro';import Experiment from '../../components/Experiment.astro';import Faq from '../../components/Faq.astro';import {experiments} from '../../lib/experiments.mjs';
+export function getStaticPaths(){return experiments.map(tool=>({params:{slug:tool.slug},props:{tool}}));}
+const {tool}=Astro.props;
+---
+<Layout title={`${tool.title} — Interactive Simulation & Calculator`} description={tool.description} section="Experiments"><div class="breadcrumb"><a href="/experiments/">Experiments</a> / {tool.category}</div><div class="intro"><div><div class="eyebrow">{tool.tag}</div><h1>{tool.title}</h1><p>{tool.description}</p></div></div><Experiment tool={tool}/><div class="related"><a href={`/learn/${tool.slug}/`}>Read the field note ↗</a><a href="/practice/">Practice your understanding ↗</a><a href="/units/">Check the units ↗</a></div><Faq title={`${tool.title}: common questions`} items={tool.faqs.map(([question,answer])=>({question,answer}))}/></Layout>

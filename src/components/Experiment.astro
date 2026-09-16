@@ -1,0 +1,62 @@
+---
+import {defaults} from '../lib/experiments.mjs';
+import {calculate} from '../lib/physics.mjs';
+import {diagram} from '../lib/diagrams.mjs';
+const {tool, compact=false}=Astro.props;
+const mode=tool.modes?.[0][0]??'series',initial=calculate(tool.slug,defaults(tool),.25,mode);
+---
+<physics-experiment data-slug={tool.slug} class:list={{compact}}>
+<div class="workbench">
+ <div class="canvas-pane">
+  <div class="canvas-top"><span class="canvas-title"><span class="live-dot" aria-hidden="true"></span>{tool.title}</span><span class="badge">TRY IT YOURSELF</span></div>
+  <div class="physics-graph"><svg data-scene viewBox="0 0 680 360" role="img" aria-label={`${tool.title} diagram; corresponding measurements appear below`}><g data-drawing set:html={diagram(tool.slug,initial.model)}/></svg></div>
+  {tool.animated&&<div class="transport"><button class="play-button" data-play aria-label="Play simulation">▶ Play</button><label class="timeline-label">Time <input type="range" data-time min="0" max="1" step="0.001" value="0.25" aria-label="Simulation progress"/></label><output data-clock>{(initial.duration*.25).toFixed(2)} s</output></div>}
+  <div class="result-grid" data-results>{initial.metrics.map(m=><div class="result-tile"><span>{m.label}</span><strong>{m.value} <small>{m.unit}</small></strong></div>)}</div>
+  <div class="graph-caption"><span>Teal + amber · follow the changing values</span><span>Idealized physics model</span></div>
+ </div>
+ <div class="controls"><h3>What if you changed…</h3>
+  {tool.modes&&<div class="pills mode-pills">{tool.modes.map(([id,label],i)=><button class:list={['pill',{selected:i===0}]} aria-pressed={i===0} data-mode={id}>{label}</button>)}</div>}
+  {tool.fields.map(f=><div class="physics-field"><label for={`${tool.slug}-${f.key}`}>{f.label}<span>{f.unit}</span></label><input id={`${tool.slug}-${f.key}`} data-number={f.key} type="number" value={f.value} min={f.min} max={f.max} step="any"/><input data-range={f.key} type="range" min={f.min} max={f.max} step={f.step} value={f.value} aria-label={`${f.label} slider (${f.unit||'unitless'})`}/></div>)}
+  <div class="preset-label">Try a starting point</div><div class="pills">{tool.presets.map(([label],i)=><button class="pill" data-preset={i}>{label}</button>)}</div>
+  <div class="experiment-actions"><button class="secondary" data-reset>Reset</button><button class="secondary" data-share>Copy link</button>{!compact&&<button class="secondary" data-download>Save diagram</button>}</div><p data-error class="error" role="alert"></p><p data-status class="small-note" role="status"></p>
+ </div>
+</div>
+{!compact&&<><section class="challenge"><span class="badge">YOUR NEXT AHA</span><p>{tool.challenge}</p></section><div class="explain-grid"><section class="explanation"><h2>See the calculation</h2><div class="formula">{tool.formula}</div><ol data-steps>{initial.steps.map(s=><li>{s}</li>)}</ol></section><section class="explanation assumption"><h2>What this model assumes</h2><p>{tool.assumption}</p><h3>Keep an eye on this</h3><p>{tool.pitfall}</p><a class="text-link" href={`/learn/${tool.slug}/`}>Understand the physics ↗</a></section></div></>}
+<noscript>The diagram and default results are shown above. Enable JavaScript to change inputs, play the simulation, or save a diagram.</noscript>
+</physics-experiment>
+<script>
+import {experiments,defaults} from '../lib/experiments.mjs';
+import {calculate} from '../lib/physics.mjs';
+import {diagram} from '../lib/diagrams.mjs';
+class PhysicsExperiment extends HTMLElement {
+ cleanup?:()=>void;
+ connectedCallback(){
+ const tool=experiments.find(t=>t.slug===this.dataset.slug)!;let values=defaults(tool),mode=tool.modes?.[0][0]??'series',progress=.25,playing=false,frame=0,last=0;
+ const get=(s:string)=>this.querySelector(s) as HTMLElement;
+ const numbers=Array.from(this.querySelectorAll<HTMLInputElement>('[data-number]'));
+ const ranges=Array.from(this.querySelectorAll<HTMLInputElement>('[data-range]'));
+ const time=this.querySelector('[data-time]') as HTMLInputElement|null;
+ const play=this.querySelector('[data-play]') as HTMLButtonElement|null;
+ const sync=(source?:HTMLInputElement)=>{numbers.forEach(n=>{if(n!==source)n.value=String(values[n.dataset.number!]);});ranges.forEach(n=>n.value=String(values[n.dataset.range!]));this.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach(b=>{const active=b.dataset.mode===mode;b.classList.toggle('selected',active);b.setAttribute('aria-pressed',String(active));});};
+ const render=()=>{const r=calculate(tool.slug,values,progress,mode);get('[data-drawing]').innerHTML=diagram(tool.slug,r.model);get('[data-results]').innerHTML=r.metrics.map(m=>`<div class="result-tile"><span>${m.label}</span><strong>${m.value} <small>${m.unit}</small></strong></div>`).join('');const steps=this.querySelector('[data-steps]');if(steps)steps.innerHTML=r.steps.map(s=>`<li>${s}</li>`).join('');if(time)time.value=String(progress);const clock=this.querySelector('[data-clock]');if(clock)clock.textContent=(progress*r.duration).toFixed(2)+' s';return r;};
+ const stop=()=>{playing=false;cancelAnimationFrame(frame);if(play){play.textContent='▶ Play';play.setAttribute('aria-label','Play simulation');}};
+ const apply=(patch:Record<string,number>,newMode=mode,newProgress=progress,source?:HTMLInputElement)=>{const candidate={...values,...patch};calculate(tool.slug,candidate,newProgress,newMode);stop();values=candidate;mode=newMode;progress=newProgress;sync(source);get('[data-error]').textContent='';return render();};
+ numbers.forEach(n=>n.addEventListener('input',()=>{try{apply({[n.dataset.number!]:n.value===''?NaN:Number(n.value)},mode,progress,n);}catch(e){stop();get('[data-error]').textContent=(e as Error).message;}}));
+ ranges.forEach(n=>n.addEventListener('input',()=>apply({[n.dataset.range!]:Number(n.value)})));
+ this.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach(b=>b.onclick=()=>apply(tool.presets[Number(b.dataset.preset)][1] as Record<string,number>,mode,.25));
+ this.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach(b=>b.onclick=()=>apply({},b.dataset.mode!));
+ get('[data-reset]').onclick=()=>{apply(defaults(tool),tool.modes?.[0][0]??'series',.25);get('[data-status]').textContent='Starting values restored.';};
+ if(time)time.oninput=()=>apply({},mode,Number(time.value));
+ if(play)play.onclick=()=>{if(get('[data-error]').textContent)return;if(playing){stop();return;}if(progress>=1)progress=0;playing=true;last=performance.now();play.textContent='Ⅱ Pause';play.setAttribute('aria-label','Pause simulation');const tick=(now:number)=>{if(!playing)return;const duration=calculate(tool.slug,values,progress,mode).duration;progress=Math.min(1,progress+Math.min((now-last)/1000,.1)/duration);last=now;render();if(progress>=1){stop();return;}frame=requestAnimationFrame(tick);};frame=requestAnimationFrame(tick);};
+ get('[data-share]').onclick=async()=>{const url=new URL('/experiments/'+tool.slug+'/',location.origin);for(const [k,v] of Object.entries(values))url.searchParams.set(k,String(v));url.searchParams.set('mode',mode);url.searchParams.set('progress',String(progress));try{await navigator.clipboard.writeText(url.href);get('[data-status]').textContent='Experiment link copied. It includes your inputs and time.';}catch{get('[data-status]').textContent='Copy this link: '+url.href;}};
+ const download=this.querySelector('[data-download]') as HTMLButtonElement|null;if(download)download.onclick=()=>{const r=calculate(tool.slug,values,progress,mode);const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 410"><rect width="680" height="410" fill="#f5faf8"/><svg width="680" height="360" viewBox="0 0 680 360">${diagram(tool.slug,r.model)}</svg><text x="20" y="390" font-family="sans-serif" font-size="14" fill="#142b40">Physics Lab · ${tool.title.replaceAll('&','&amp;')} · idealized model</text></svg>`;const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));const a=document.createElement('a');a.href=url;a.download=tool.slug+'.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ const onHide=()=>{if(document.hidden)stop();};document.addEventListener('visibilitychange',onHide);
+ try{const params=new URLSearchParams(location.search),patch:Record<string,number>={};for(const f of tool.fields)if(params.has(f.key))patch[f.key]=params.get(f.key)===''?NaN:Number(params.get(f.key));apply(patch,params.get('mode')??mode,params.has('progress')?Number(params.get('progress')):progress);}catch{get('[data-error]').textContent='This link contains invalid settings. Showing the starting values.';render();}
+ const lifecycle=new AbortController();const context=(document as any).modelContext;
+ if(context?.registerTool){try{Promise.resolve(context.registerTool({name:'configure_physics_experiment',title:'Configure physics experiment',description:`Update the visible ${tool.title} experiment inputs and return its calculated measurements.`,inputSchema:{type:'object',properties:{values:{type:'object',properties:Object.fromEntries(tool.fields.map(f=>[f.key,{type:'number',minimum:f.min,maximum:f.max}])),additionalProperties:false},progress:{type:'number',minimum:0,maximum:1},...(tool.modes?{mode:{type:'string',enum:tool.modes.map(m=>m[0])}}:{})},additionalProperties:false},annotations:{readOnlyHint:false},execute:(input:any)=>{if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Expected an object.');const patch=input.values??{};if(typeof patch!=='object'||patch===null||Array.isArray(patch)||Object.keys(patch).some(k=>!tool.fields.some(f=>f.key===k)))throw Error('Unknown input field.');return apply(patch,input.mode??mode,input.progress??progress).metrics;}},{signal:lifecycle.signal})).catch(()=>{});}catch{}}
+ this.cleanup=()=>{stop();document.removeEventListener('visibilitychange',onHide);lifecycle.abort();};
+ }
+ disconnectedCallback(){this.cleanup?.();}
+}
+customElements.define('physics-experiment',PhysicsExperiment);
+</script>

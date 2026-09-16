@@ -1,0 +1,4 @@
+---
+import Layout from '../layouts/Layout.astro';import {experiments} from '../lib/experiments.mjs';
+---
+<Layout title="Physics Formula Reference — Motion, Waves, Electricity & Optics" section="Formulas"><div class="intro"><div><div class="eyebrow">Keep the useful ideas close</div><h1>Physics formulas, with a reason.</h1><p>Every equation links to an experiment. Check the assumptions before applying it.</p></div></div><div class="formula-reference">{experiments.map(t=><section class="explanation"><span class="badge">{t.category}</span><h2>{t.title}</h2><div class="formula">{t.formula}</div><p>{t.assumption}</p><a class="text-link" href={`/experiments/${t.slug}/`}>Explore the relationship ↗</a></section>)}</div><div class="related"><a href="/units/">Units & constants ↗</a><a href="/worksheets/">Print a practice sheet ↗</a></div></Layout>

@@ -1,0 +1,5 @@
+---
+import {defaults} from '../lib/experiments.mjs';import {calculate} from '../lib/physics.mjs';import {diagram} from '../lib/diagrams.mjs';
+const {tools,lessons=false}=Astro.props;
+---
+<div class="tool-grid">{tools.map(t=><a class="tool-card physics-card" data-tool data-topic={t.category} data-text={`${t.title} ${t.description} ${t.category}`.toLowerCase()} href={`/${lessons?'learn':'experiments'}/${t.slug}/`}><div class="card-top"><span class="badge">{t.category}</span><span class="card-arrow" aria-hidden="true">↗</span></div><div class="card-diagram"><svg viewBox="0 0 680 360" aria-hidden="true" focusable="false" set:html={diagram(t.slug,calculate(t.slug,defaults(t),.25,t.modes?.[0][0]??'series').model)}/></div><h3>{t.title}</h3><p>{lessons?t.lesson.split('. ')[0]+'.':t.description}</p><div class="card-meta"><span>{t.tag}</span><span>{lessons?'Field note':t.animated?'Play & explore':'Adjust & discover'}</span></div></a>)}</div>
