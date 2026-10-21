@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+import {ads} from '../src/lib/ads.mjs';
+test('ad units are valid, unique Adsterra keys for the production domain',()=>{const keys=[ads.native,ads.leaderboard,ads.mobile,ads.rectangle];for(const key of keys)assert.match(key,/^[0-9a-f]{32}$/);assert.equal(new Set(keys).size,keys.length);assert.match(ads.host,/^https:\/\//);assert.equal(ads.domain,'thephysicslab.org');assert.match(readFileSync(new URL('../astro.config.mjs',import.meta.url),'utf8'),/site:['"]https:\/\/thephysicslab\.org['"]/);});

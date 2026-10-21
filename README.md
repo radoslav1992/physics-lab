@@ -46,7 +46,7 @@ The production origin `https://thephysicslab.org` is set in `astro.config.mjs`; 
 
 ## Models and validation
 
-All formulas live in `src/lib/physics.mjs`. Seventeen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, and the numbers quoted in every worked example. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
+All formulas live in `src/lib/physics.mjs`. Eighteen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, the numbers quoted in every worked example, and the Adsterra unit keys. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
 
 The friction model deliberately uses the same coefficient for static and kinetic friction. Pendulum amplitude is limited to 15° for the small-angle approximation. The wave explorer lets frequency and wavelength vary independently and computes the implied speed. Ray optics uses ideal thin-lens/paraxial assumptions. These are educational models, not engineering design or safety tools.
 
@@ -58,7 +58,11 @@ Every page has a canonical URL, a title and meta description sized for search sn
 
 ## Design and privacy
 
-Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab. SVG diagrams are generated from the physical state. Native fields, keyboard-operable controls, visible focus, responsive layouts, and reduced-motion styles are included. Practice scores stay in local browser storage. Google Fonts supplies DM Sans and Manrope; system fonts are fallbacks. Google Analytics (G-2ZHXFW2460) measures site usage through the shared page layout. There are no advertising scripts.
+Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab. SVG diagrams are generated from the physical state. Native fields, keyboard-operable controls, visible focus, responsive layouts, and reduced-motion styles are included. Practice scores stay in local browser storage. Google Fonts supplies DM Sans and Manrope; system fonts are fallbacks. Google Analytics (G-2ZHXFW2460) measures site usage through the shared page layout. `/privacy/` explains analytics, ads, and local storage in plain language.
+
+## Ads
+
+Adsterra banner and native units fund the site. The unit keys live in `src/lib/ads.mjs`, and `src/components/AdSlot.astro` renders each slot with its space reserved (728×90 on wide screens or 320×50 on phones, 300×250, or native) so the page never jumps. Ad scripts load only when a slot nears the viewport, one banner at a time because Adsterra's snippets share a global `atOptions`, and only on the `thephysicslab.org` hostname, so local and preview builds stay ad-free. Placements: a leaderboard before the footer on every page (`<Layout ads={false}>` opts out, as on the 404 page); experiment and lesson pages, the formula sheet, and the symbols page add one 300×250 after the simulation or first content block, and lesson pages also add one native unit before the FAQ. Experiment, formula, and symbol pages skip the native unit because it would sit right next to another ad. Ads are never placed in the header or inside a simulation, and slots are hidden when printing.
 
 ## Project structure
 
@@ -66,8 +70,9 @@ Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab.
 - `src/lib/physics.mjs`: validated calculations and worked steps.
 - `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
+- `src/lib/ads.mjs` and `src/components/AdSlot.astro`: Adsterra unit keys and the lazy, production-only ad slot.
 - `src/components/Experiment.astro`: controls, animation, sharing, and downloads.
 - `src/lib/practice.mjs`: question bank and round generation.
 - `src/pages`: static routes and educational resources.
 - `src/styles`: base theme and physics-specific responsive/print styles.
-- `tests/physics.test.mjs`: physics and content regression checks.
+- `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks.
