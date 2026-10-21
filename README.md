@@ -1,6 +1,6 @@
-# Physics Lab
+# The Physics Lab
 
-A complete, static Astro Physics Visualizer for hands-on learning. Twelve interactive experiments connect diagrams, measurements, equations, assumptions, and worked explanations. No accounts, backend, API keys, or paid model calls are required.
+The Physics Lab ([thephysicslab.org](https://thephysicslab.org)) is a complete, static Astro physics visualizer for hands-on learning. Twelve interactive experiments connect diagrams, measurements, equations, assumptions, and worked explanations. No accounts, backend, API keys, or paid model calls are required.
 
 ## Included
 
@@ -15,8 +15,9 @@ A complete, static Astro Physics Visualizer for hands-on learning. Twelve intera
 - Snell’s law with critical-angle and total-internal-reflection handling.
 - A converging thin lens with real, virtual, and focal-plane cases.
 - Play/pause and time scrubbing for time-dependent experiments; editable inputs, presets, reset, shareable settings, and SVG diagram downloads.
-- Searchable experiment catalog, twelve concept lessons, formula reference, units reference, and contextual FAQs.
-- 100 practice questions across five topics, feedback, mistake review, focused retries, and device-local best scores.
+- Searchable experiment catalog and twelve concept lessons, each with a key-formula sheet, a step-by-step worked problem, and contextual FAQs.
+- A physics formula sheet grouped by topic, a physics symbols glossary (`/physics-symbols/`), and a units reference.
+- 100 practice questions across five topics, feedback, mistake review, focused retries, and device-local best scores, plus 20 server-rendered sample problems with answers.
 - Printable 8-, 12-, and 20-question worksheets with an optional answer key.
 
 ## Development
@@ -40,17 +41,20 @@ Connect `radoslav1992/physics-lab` and select `main`.
 - Build command: `npm run build`
 - Output directory: `dist`
 - Environment: `NODE_VERSION=22`
-- Set `SITE_URL` to the final public origin, such as `https://your-physics-domain.example`, before building.
 
-The sitemap, robots.txt, canonical links, and Open Graph URLs derive from `SITE_URL`. Without it, the app uses its separate private preview origin. No public custom domain has been assumed or purchased. The `.openai/hosting.json` manifest identifies the preview and is not needed by Cloudflare Pages. Static hosting needs no database, bindings, or migrations.
+The production origin `https://thephysicslab.org` is set in `astro.config.mjs`; the sitemap, robots.txt, canonical links, Open Graph URLs, and structured data derive from it. Change it there if the domain ever moves. The `.openai/hosting.json` manifest identifies the preview and is not needed by Cloudflare Pages. Static hosting needs no database, bindings, or migrations.
 
 ## Models and validation
 
-All formulas live in `src/lib/physics.mjs`. Fifteen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, and practice-bank integrity. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
+All formulas live in `src/lib/physics.mjs`. Seventeen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, and the numbers quoted in every worked example. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
 
 The friction model deliberately uses the same coefficient for static and kinetic friction. Pendulum amplitude is limited to 15° for the small-angle approximation. The wave explorer lets frequency and wavelength vary independently and computes the implied speed. Ray optics uses ideal thin-lens/paraxial assumptions. These are educational models, not engineering design or safety tools.
 
 A feature-detected WebMCP `configure_physics_experiment` tool uses the same validation and visible state updates as the controls. Unsupported browsers are unaffected. Browser interaction and WebMCP runtime validation could not be completed in this build environment because the supervised preview failed to become available; production builds and model/content checks passed.
+
+## Search and structured data
+
+Every page has a canonical URL, a title and meta description sized for search snippets, and JSON-LD: `WebApplication` for simulations, `Article` for lessons and references, `CollectionPage` for hubs, `BreadcrumbList` wherever a visible breadcrumb appears, and `WebSite` plus `Organization` on the home page. FAQ markup (`FAQPage`) is emitted only once per FAQ set, on the home page and on each simulation page. The 404 page is `noindex`.
 
 ## Design and privacy
 
@@ -60,6 +64,7 @@ Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab.
 
 - `src/lib/experiments.mjs`: experiment definitions, fields, lessons, and FAQs.
 - `src/lib/physics.mjs`: validated calculations and worked steps.
+- `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
 - `src/components/Experiment.astro`: controls, animation, sharing, and downloads.
 - `src/lib/practice.mjs`: question bank and round generation.
