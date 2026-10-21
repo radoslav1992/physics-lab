@@ -1,7 +1,9 @@
 ---
 interface Item { question: string; answer: string; href?: string; label?: string; }
-interface Props { items: Item[]; title?: string; }
-const { items, title = 'Frequently asked questions' } = Astro.props;
+interface Props { items: Item[]; title?: string; schema?: boolean; }
+const { items, title = 'Frequently asked questions', schema = false } = Astro.props;
+// Mark up only one visible instance of each FAQ set, as search engines expect.
+const faqPage = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) };
 ---
 <section class="faq-section" aria-labelledby="faq-heading">
   <div class="faq-intro">
@@ -20,4 +22,5 @@ const { items, title = 'Frequently asked questions' } = Astro.props;
       </details>
     ))}
   </div>
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(faqPage)} />}
 </section>

@@ -1,0 +1,6 @@
+---
+// Compact formula sheet: what each formula finds, the equation, and when it applies.
+interface Props { formulas: {label:string;formula:string;note:string}[] }
+const {formulas}=Astro.props;
+---
+<dl class="formula-list">{formulas.map(f=><div><dt>{f.label}</dt><dd class="formula-line">{f.formula}</dd><dd class="formula-note">{f.note}</dd></div>)}</dl>
