@@ -62,7 +62,7 @@ Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab.
 
 ## Ads
 
-Adsterra banner and native units fund the site. The unit keys live in `src/lib/ads.mjs`, and `src/components/AdSlot.astro` renders each slot with its space reserved (728×90 on wide screens or 320×50 on phones, 300×250, or native) so the page never jumps. Ad scripts load only when a slot nears the viewport, one banner at a time because Adsterra's snippets share a global `atOptions`, and only on the `thephysicslab.org` hostname, so local and preview builds stay ad-free. Placements: a leaderboard before the footer on every page (`<Layout ads={false}>` opts out, as on the 404 page); experiment and lesson pages, the formula sheet, and the symbols page add one 300×250 after the simulation or first content block, and lesson pages also add one native unit before the FAQ. Experiment, formula, and symbol pages skip the native unit because it would sit right next to another ad. Ads are never placed in the header or inside a simulation, and slots are hidden when printing.
+Adsterra banner and native units fund the site. The unit keys live in `src/lib/ads.mjs`, and `src/components/AdSlot.astro` renders each slot with its space reserved (728×90 on wide screens or 320×50 on phones, 300×250, or native) so the page never jumps. Ad scripts load only when a slot nears the viewport, one banner at a time because Adsterra's snippets share a global `atOptions`, and only on the `thephysicslab.org` hostname, so local and preview builds stay ad-free. Placements: a leaderboard before the footer on every page (`<Layout ads={false}>` opts out, as on the 404 page); experiment and lesson pages, the formula sheet, and the symbols page add one 300×250 after the simulation or first content block, and lesson pages also add one native unit before the FAQ. Experiment, formula, and symbol pages skip the native unit because it would sit right next to another ad. Ads are never placed in the header or inside a simulation, and slots are hidden when printing. Students who arrive from Google Classroom, Canvas, or Schoology (or through a link carrying `?classroom`) browse ad-free on that device for 30 days: `src/components/AdFree.astro` runs in the page head, marks the page `ad-free` before anything renders, and `AdSlot` then neither shows nor loads ads.
 
 ## Project structure
 
@@ -70,7 +70,7 @@ Adsterra banner and native units fund the site. The unit keys live in `src/lib/a
 - `src/lib/physics.mjs`: validated calculations and worked steps.
 - `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
-- `src/lib/ads.mjs` and `src/components/AdSlot.astro`: Adsterra unit keys and the lazy, production-only ad slot.
+- `src/lib/ads.mjs`, `src/components/AdSlot.astro`, and `src/components/AdFree.astro`: Adsterra unit keys, the lazy, production-only ad slot, and the ad-free rule for students arriving from school platforms.
 - `src/components/Experiment.astro`: controls, animation, sharing, and downloads.
 - `src/lib/practice.mjs`: question bank and round generation.
 - `src/pages`: static routes and educational resources.
