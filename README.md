@@ -19,6 +19,7 @@ The Physics Lab ([thephysicslab.org](https://thephysicslab.org)) is a complete, 
 - A physics formula sheet grouped by topic, a physics symbols glossary (`/physics-symbols/`), and a units reference.
 - 100 practice questions across five topics, feedback, mistake review, focused retries, and device-local best scores, plus 20 server-rendered sample problems with answers.
 - Printable 8-, 12-, and 20-question worksheets with an optional answer key.
+- A teacher hub (`/teachers/`) with a printable one-page student activity for every experiment (`/experiments/<slug>/activity/`), matching answer keys (`/teachers/answers/<slug>/`), NGSS connections where they clearly apply, and plain-link Share to Google Classroom buttons.
 
 ## Development
 
@@ -60,9 +61,15 @@ Every page has a canonical URL, a title and meta description sized for search sn
 
 Warm ivory, navy, teal, and amber carry the shared visual style of Geometry Lab. SVG diagrams are generated from the physical state. Native fields, keyboard-operable controls, visible focus, responsive layouts, and reduced-motion styles are included. Practice scores stay in local browser storage. Google Fonts supplies DM Sans and Manrope; system fonts are fallbacks. Google Analytics (G-2ZHXFW2460) measures site usage through the shared page layout. `/privacy/` explains analytics, ads, and local storage in plain language.
 
+## Teachers
+
+`/teachers/` lists every experiment with its grade band, time, NGSS connection, student activity, answer key, and a Share to Google Classroom link. Activities print as a single clean page (no header, footer, buttons, or ads). Answer keys are `noindex`, excluded from the sitemap (`astro.config.mjs`), linked only from the teacher hub, and show no ads; the hub shows none either. Share links are plain links to `classroom.google.com/share` (no Google script) and append `?classroom=1`, so students who open them browse ad-free. To add an activity, extend `src/lib/activities.mjs`; the tests check presets, field ranges, readout columns, and every printed number.
+
 ## Ads
 
 Adsterra banner and native units fund the site. The unit keys live in `src/lib/ads.mjs`, and `src/components/AdSlot.astro` renders each slot with its space reserved (728×90 on wide screens or 320×50 on phones, 300×250, or native) so the page never jumps. Ad scripts load only when a slot nears the viewport, one banner at a time because Adsterra's snippets share a global `atOptions`, and only on the `thephysicslab.org` hostname, so local and preview builds stay ad-free. Placements: a leaderboard before the footer on every page (`<Layout ads={false}>` opts out, as on the 404 page); experiment and lesson pages, the formula sheet, and the symbols page add one 300×250 after the simulation or first content block, and lesson pages also add one native unit before the FAQ. Experiment, formula, and symbol pages skip the native unit because it would sit right next to another ad. Ads are never placed in the header or inside a simulation, and slots are hidden when printing. Students who arrive from Google Classroom, Canvas, or Schoology (or through a link carrying `?classroom`) browse ad-free on that device for 30 days: `src/components/AdFree.astro` runs in the page head, marks the page `ad-free` before anything renders, and `AdSlot` then neither shows nor loads ads.
+
+Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree` in `<head>`, before the Google tag, and sets Google Consent Mode v2 defaults — analytics and ad storage are denied by default in the EEA, the UK, and Switzerland and granted elsewhere — and restores a saved choice (`cookieConsent` in local storage, kept 180 days). Visitors whose time zone is in Europe see `src/components/ConsentBanner.astro`, a small non-blocking banner with equally weighted Accept and Reject buttons. Until they accept, `AdSlot` neither shows nor loads ads; Reject keeps analytics cookie-free and shows no ads. *Cookie settings* in the footer reopens the banner, and accepting later starts ads without a reload. Students arriving from school platforms stay ad-free regardless of their choice.
 
 ## Project structure
 
@@ -71,8 +78,11 @@ Adsterra banner and native units fund the site. The unit keys live in `src/lib/a
 - `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
 - `src/lib/ads.mjs`, `src/components/AdSlot.astro`, and `src/components/AdFree.astro`: Adsterra unit keys, the lazy, production-only ad slot, and the ad-free rule for students arriving from school platforms.
+- `src/components/ConsentDefaults.astro` and `src/components/ConsentBanner.astro`: Google Consent Mode defaults and the cookie banner for visitors in Europe.
 - `src/components/Experiment.astro`: controls, animation, sharing, and downloads.
 - `src/lib/practice.mjs`: question bank and round generation.
+- `src/lib/activities.mjs`: classroom activities (steps, record tables, questions, answers) and the NGSS codes they reference. Each printed number carries a check against `physics.mjs`, enforced by `tests/activities.test.mjs`.
+- `src/components/ActivityTable.astro` and `src/components/ClassroomShare.astro`: the worksheet record table (filled from the model in answer keys) and the Share to Google Classroom link.
 - `src/pages`: static routes and educational resources.
 - `src/styles`: base theme and physics-specific responsive/print styles.
 - `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks.

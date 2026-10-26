@@ -1,0 +1,8 @@
+---
+// The worksheet's record table: blank for students, filled from the experiment's own readouts in the answer key.
+import {run} from '../lib/activities.mjs';
+const {act,answers=false}=Astro.props;
+const clean=(v:string)=>v.replace(/^-0(?=\s|$)/,'0');
+const rows=act.table.rows.map(([label,setting])=>[label,answers?Object.fromEntries(run(act.slug,setting).metrics.map(m=>[m.label,clean(`${m.value}${m.unit?` ${m.unit}`:''}`)])):{}]);
+---
+<div class="record-wrap"><table class="record-table"><thead><tr><th scope="col">Setting</th>{act.table.record.map(h=><th scope="col">{h}</th>)}</tr></thead><tbody>{rows.map(([label,values])=><tr><th scope="row">{label}</th>{act.table.record.map(h=><td>{values[h]??''}</td>)}</tr>)}</tbody></table></div>
