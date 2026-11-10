@@ -1,11 +1,14 @@
 # The Physics Lab
 
-The Physics Lab ([thephysicslab.org](https://thephysicslab.org)) is a complete, static Astro physics visualizer for hands-on learning. Twelve interactive experiments connect diagrams, measurements, equations, assumptions, and worked explanations. No accounts, backend, API keys, or paid model calls are required.
+The Physics Lab ([thephysicslab.org](https://thephysicslab.org)) is a complete, static Astro physics visualizer for hands-on learning. Fifteen interactive experiments connect diagrams, measurements, equations, assumptions, and worked explanations. No accounts, backend, API keys, or paid model calls are required.
 
 ## Included
 
 - Projectile motion with angle, speed, gravity, trajectory, flight time, and range.
 - Position and velocity graphs under constant acceleration, including reversals.
+- Free fall under Earth, Moon, Mars, or Jupiter gravity, with air resistance off or on (quadratic drag and terminal velocity), the two falls side by side, and speed–time and height–time graphs.
+- Uniform circular motion and centripetal force for a puck on a string (set speed, period, or rpm), a car on a flat curve (top speed √(μgr), with a skid when friction is too small), and a satellite in a circular Earth orbit.
+- One-dimensional collisions of two carts with a coefficient of restitution from 0 (stick together) to 1 (elastic): momentum, kinetic energy lost, and impulse, with a live momentum bar chart.
 - Applied force and static/kinetic friction on a level surface.
 - Conservation of energy for a particle sliding down a frictionless ramp.
 - Buoyancy, prescribed immersion, floating equilibrium, and sinking.
@@ -15,7 +18,7 @@ The Physics Lab ([thephysicslab.org](https://thephysicslab.org)) is a complete, 
 - Snell’s law with critical-angle and total-internal-reflection handling.
 - A converging thin lens with real, virtual, and focal-plane cases.
 - Play/pause and time scrubbing for time-dependent experiments; editable inputs, presets, reset, shareable settings, and SVG diagram downloads.
-- Searchable experiment catalog and twelve concept lessons, each with a key-formula sheet, a step-by-step worked problem, and contextual FAQs.
+- Searchable experiment catalog and fifteen concept lessons, each with a key-formula sheet, a step-by-step worked problem, and contextual FAQs.
 - A physics formula sheet grouped by topic, a physics symbols glossary (`/physics-symbols/`), and a units reference.
 - 100 practice questions across five topics, feedback, mistake review, focused retries, and device-local best scores, plus 20 server-rendered sample problems with answers.
 - Printable 8-, 12-, and 20-question worksheets with an optional answer key.
@@ -49,15 +52,17 @@ The production origin `https://thephysicslab.org` is set in `astro.config.mjs`; 
 
 ## Models and validation
 
-All formulas live in `src/lib/physics.mjs`. Eighteen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, the numbers quoted in every worked example, and the Adsterra unit keys. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
+All formulas live in `src/lib/physics.mjs`. Forty-four Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, the numbers quoted in every worked example, and the Adsterra unit keys. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
 
-The friction model deliberately uses the same coefficient for static and kinetic friction. Pendulum amplitude is limited to 15° for the small-angle approximation. The wave explorer lets frequency and wavelength vary independently and computes the implied speed. Ray optics uses ideal thin-lens/paraxial assumptions. These are educational models, not engineering design or safety tools.
+The friction model deliberately uses the same coefficient for static and kinetic friction. Pendulum amplitude is limited to 15° for the small-angle approximation. The wave explorer lets frequency and wavelength vary independently and computes the implied speed. Ray optics uses ideal thin-lens/paraxial assumptions. Free fall uses quadratic drag, ½ρCdAv², with a constant drag coefficient and air density: terminal velocity vₜ = √(2mg/(ρCdA)), v(t) = vₜ tanh(gt/vₜ), y(t) = (vₜ²/g) ln cosh(gt/vₜ), and a fall time found by inverting y(t). Its object presets are rounded, approximate values (the skydiver uses the OpenStax textbook figures, 85 kg, Cd 1.0, 0.7 m²), and its gravity presets change g only. Circular motion is described from the ground frame; the car is on a flat, unbanked road with one friction coefficient, and the satellite is on a circular orbit around a spherical Earth with GM = 3.986004418 × 10¹⁴ m³/s² and the equatorial radius 6,378.137 km, which gives a geostationary period within a second of the sidereal day. Collisions are instantaneous with a constant coefficient of restitution; carts that are not closing on each other are reported as never meeting. These are educational models, not engineering design or safety tools.
+
+`fall`, `terminalVelocity`, `circular`, `curveSpeedLimit`, `orbitSpeed`, and `collide` are exported from `physics.mjs` as plain functions so tests, answer keys, and diagrams share them. Very short or very long motions return a `playTime`, so the animation is slowed down or sped up and says so on the diagram; the clock always shows model time.
 
 A feature-detected WebMCP `configure_physics_experiment` tool uses the same validation and visible state updates as the controls. Unsupported browsers are unaffected. Browser interaction and WebMCP runtime validation could not be completed in this build environment because the supervised preview failed to become available; production builds and model/content checks passed.
 
 ## Search and structured data
 
-Every page has a canonical URL, a title and meta description sized for search snippets, and JSON-LD: `WebApplication` for simulations, `Article` for lessons and references, `CollectionPage` for hubs, `BreadcrumbList` wherever a visible breadcrumb appears, and `WebSite` plus `Organization` on the home page. FAQ markup (`FAQPage`) is emitted only once per FAQ set, on the home page and on each simulation page. The experiment hub adds an `ItemList` of the twelve simulations that matches its visible “What each physics simulation does” table.
+Every page has a canonical URL, a title and meta description sized for search snippets, and JSON-LD: `WebApplication` for simulations, `Article` for lessons and references, `CollectionPage` for hubs, `BreadcrumbList` wherever a visible breadcrumb appears, and `WebSite` plus `Organization` on the home page. FAQ markup (`FAQPage`) is emitted only once per FAQ set, on the home page and on each simulation page. The experiment hub adds an `ItemList` of all the simulations that matches its visible “What each physics simulation does” table.
 
 Search wording lives in `src/lib/guides.mjs`: each simulation’s title and H1 lead with “… simulation” or “… simulator”, the description and the one-line `summary` say what can be changed and measured, and `formulaHeading` names its block on the formula sheet. Simulation, lesson, and activity pages link to each other with those names as anchor text. Deep links: `/formulas/#<experiment-slug>` (for example `/formulas/#buoyancy`), `/formulas/#centripetal-force` for rows of the extra table, and `/physics-symbols/#symbol-force` for a symbol row (ids come from `src/lib/symbols.mjs`). The 404 page is `noindex`.
 
@@ -77,7 +82,7 @@ Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree`
 
 ## Project structure
 
-- `src/lib/experiments.mjs`: experiment definitions, fields, lessons, and FAQs.
+- `src/lib/experiments.mjs`: experiment definitions, fields, lessons, and FAQs. A field made with `only(mode, …)` appears only in that mode; one made with `linked(…)` is another way to enter a stored value (period and rpm set the speed in circular motion); a preset may name the mode it belongs to as a third item; `related` lists experiments in other topics to link to and from. `count` and `countWord` give the number of experiments, and the home page, hubs, teacher page, and `llms.txt` intro read them, so adding an experiment updates every “15”.
 - `src/lib/physics.mjs`: validated calculations and worked steps.
 - `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
@@ -90,7 +95,7 @@ Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree`
 - `src/components/ActivityTable.astro` and `src/components/ClassroomShare.astro`: the worksheet record table (filled from the model in answer keys) and the Share to Google Classroom link.
 - `src/pages`: static routes and educational resources.
 - `src/styles`: base theme and physics-specific responsive/print styles.
-- `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks; `tests/content.test.mjs`: search copy, symbol anchors, and the HTTPS header.
+- `tests/physics.test.mjs`: physics and content regression checks, including every number quoted in the new experiments’ examples, worked problems, and FAQs; `tests/ads.test.mjs`: ad unit key checks; `tests/content.test.mjs`: search copy, symbol anchors, and the HTTPS header.
 
 ## llms.txt
 
