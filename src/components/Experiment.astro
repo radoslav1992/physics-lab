@@ -47,7 +47,7 @@ class PhysicsExperiment extends HTMLElement {
  const stop=()=>{playing=false;cancelAnimationFrame(frame);if(play){play.textContent='▶ Play';play.setAttribute('aria-label','Play simulation');}};
  const apply=(patch:Record<string,number>,newMode=mode,newProgress=progress,source?:HTMLInputElement)=>{const candidate={...values,...patch};calculate(tool.slug,candidate,newProgress,newMode);stop();values=candidate;mode=newMode;progress=newProgress;sync(source);get('[data-error]').textContent='';return render();};
  numbers.forEach(n=>n.addEventListener('input',()=>{try{apply(patchFor(n.dataset.number!,n.value===''?NaN:Number(n.value)),mode,progress,n);}catch(e){stop();get('[data-error]').textContent=(e as Error).message;}}));
- ranges.forEach(n=>n.addEventListener('input',()=>{try{apply(patchFor(n.dataset.range!,Number(n.value)));}catch(e){sync();get('[data-error]').textContent=(e as Error).message;}}));
+ ranges.forEach(n=>n.addEventListener('input',()=>{try{apply(patchFor(n.dataset.range!,Number(n.value)));get('[data-status]').textContent='';}catch(e){sync();get('[data-status]').textContent=(e as Error).message;}}));
  this.querySelectorAll<HTMLButtonElement>('[data-preset]').forEach(b=>b.onclick=()=>{const [,patch,presetMode]=tool.presets[Number(b.dataset.preset)] as [string,Record<string,number>,string?];apply(patch,presetMode??mode,.25);});
  this.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach(b=>b.onclick=()=>apply({},b.dataset.mode!));
  get('[data-reset]').onclick=()=>{apply(defaults(tool),tool.modes?.[0][0]??'series',.25);get('[data-status]').textContent='Starting values restored.';};
