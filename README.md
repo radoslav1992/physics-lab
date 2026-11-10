@@ -45,6 +45,8 @@ Connect `radoslav1992/physics-lab` and select `main`.
 
 The production origin `https://thephysicslab.org` is set in `astro.config.mjs`; the sitemap, robots.txt, canonical links, Open Graph URLs, and structured data derive from it. Change it there if the domain ever moves. The `.openai/hosting.json` manifest identifies the preview and is not needed by Cloudflare Pages. Static hosting needs no database, bindings, or migrations.
 
+**HTTPS.** A static site cannot redirect `http://` requests itself, and some `http://thephysicslab.org/...` URLs have appeared in Google Search. Turn on **Always Use HTTPS** for the zone in the Cloudflare dashboard (SSL/TLS → Edge Certificates) so every `http://` request is redirected to `https://`. `public/_headers` also sends `Strict-Transport-Security: max-age=31536000; includeSubDomains` on every response, so browsers that have visited once keep using HTTPS. Do not add host- or scheme-based rules to `_redirects`; Cloudflare's static asset hosting rejects them.
+
 ## Models and validation
 
 All formulas live in `src/lib/physics.mjs`. Eighteen Node test cases check independent known answers, conservation relationships, parameter boundaries, singular cases, diagram finiteness, practice-bank integrity, search-guide completeness and snippet lengths, the numbers quoted in every worked example, and the Adsterra unit keys. Each experiment states its approximation and units. Illustrations are automatically scaled or explicitly schematic; no generated images are used for scientific diagrams.
@@ -55,7 +57,9 @@ A feature-detected WebMCP `configure_physics_experiment` tool uses the same vali
 
 ## Search and structured data
 
-Every page has a canonical URL, a title and meta description sized for search snippets, and JSON-LD: `WebApplication` for simulations, `Article` for lessons and references, `CollectionPage` for hubs, `BreadcrumbList` wherever a visible breadcrumb appears, and `WebSite` plus `Organization` on the home page. FAQ markup (`FAQPage`) is emitted only once per FAQ set, on the home page and on each simulation page. The 404 page is `noindex`.
+Every page has a canonical URL, a title and meta description sized for search snippets, and JSON-LD: `WebApplication` for simulations, `Article` for lessons and references, `CollectionPage` for hubs, `BreadcrumbList` wherever a visible breadcrumb appears, and `WebSite` plus `Organization` on the home page. FAQ markup (`FAQPage`) is emitted only once per FAQ set, on the home page and on each simulation page. The experiment hub adds an `ItemList` of the twelve simulations that matches its visible “What each physics simulation does” table.
+
+Search wording lives in `src/lib/guides.mjs`: each simulation’s title and H1 lead with “… simulation” or “… simulator”, the description and the one-line `summary` say what can be changed and measured, and `formulaHeading` names its block on the formula sheet. Simulation, lesson, and activity pages link to each other with those names as anchor text. Deep links: `/formulas/#<experiment-slug>` (for example `/formulas/#buoyancy`), `/formulas/#centripetal-force` for rows of the extra table, and `/physics-symbols/#symbol-force` for a symbol row (ids come from `src/lib/symbols.mjs`). The 404 page is `noindex`.
 
 ## Design and privacy
 
@@ -77,6 +81,7 @@ Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree`
 - `src/lib/physics.mjs`: validated calculations and worked steps.
 - `src/lib/guides.mjs`: per-experiment search titles, quick answers, formula sheets, worked problems, and calculator FAQs (server-rendered only, so it stays out of the client bundle).
 - `src/lib/diagrams.mjs`: state-based SVG diagrams.
+- `src/lib/symbols.mjs`: the physics symbols tables, row anchors, and the A–Z quantity lookup shown on `/physics-symbols/`.
 - `src/lib/ads.mjs`, `src/components/AdSlot.astro`, and `src/components/AdFree.astro`: Adsterra unit keys, the lazy, production-only ad slot, and the ad-free rule for students arriving from school platforms.
 - `src/components/ConsentDefaults.astro` and `src/components/ConsentBanner.astro`: Google Consent Mode defaults and the cookie banner for visitors in Europe.
 - `src/components/Experiment.astro`: controls, animation, sharing, and downloads.
@@ -85,4 +90,4 @@ Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree`
 - `src/components/ActivityTable.astro` and `src/components/ClassroomShare.astro`: the worksheet record table (filled from the model in answer keys) and the Share to Google Classroom link.
 - `src/pages`: static routes and educational resources.
 - `src/styles`: base theme and physics-specific responsive/print styles.
-- `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks.
+- `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks; `tests/content.test.mjs`: search copy, symbol anchors, and the HTTPS header.
