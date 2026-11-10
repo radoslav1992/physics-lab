@@ -11,9 +11,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { count } from '../src/lib/experiments.mjs';
 
 const NAME = "Physics Lab";
-const INTRO = "A free virtual physics lab for students and teachers: 12 interactive simulations of motion, forces, energy, waves, circuits and light, each with a lesson, a printable classroom activity and a teacher answer key, plus a formula sheet and a list of physics symbols. Runs in the browser with no sign-up. From the makers of Interactive Periodic Table.";
+const INTRO = `A free virtual physics lab for students and teachers: ${count} interactive simulations of motion, forces, energy, waves, circuits and light, each with a lesson, a printable classroom activity and a teacher answer key, plus a formula sheet and a list of physics symbols. Runs in the browser with no sign-up. From the makers of Interactive Periodic Table.`;
 const CONTACT = "";
 const SISTERS = [
   ['Interactive Periodic Table', 'https://interactiveperiodictable.net/'],

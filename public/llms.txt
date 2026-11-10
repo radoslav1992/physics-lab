@@ -1,13 +1,14 @@
 # Physics Lab
 
-> A free virtual physics lab for students and teachers: 12 interactive simulations of motion, forces, energy, waves, circuits and light, each with a lesson, a printable classroom activity and a teacher answer key, plus a formula sheet and a list of physics symbols. Runs in the browser with no sign-up. From the makers of Interactive Periodic Table.
+> A free virtual physics lab for students and teachers: 13 interactive simulations of motion, forces, energy, waves, circuits and light, each with a lesson, a printable classroom activity and a teacher answer key, plus a formula sheet and a list of physics symbols. Runs in the browser with no sign-up. From the makers of Interactive Periodic Table.
 
 ## Tools
 
-- [Physics Simulations: 12 Free Interactive Online Experiments](https://thephysicslab.org/experiments/): Physics simulations to run free in your browser: 12 interactive experiments on motion, forces, energy, waves, circuits and optics, with worked formulas.
+- [Physics Simulations: 13 Free Interactive Online Experiments](https://thephysicslab.org/experiments/): Physics simulations to run free in your browser: 13 interactive experiments on motion, forces, energy, waves, circuits and optics, with worked formulas.
 - [Buoyancy Simulation & Buoyant Force Calculator (F = ρgV)](https://thephysicslab.org/experiments/buoyancy/): Buoyancy simulation: set object density, fluid density, volume and immersion to find the buoyant force F = ρgV and see whether the object floats or sinks.
 - [Conservation of Energy Simulation: PE & KE on a Ramp](https://thephysicslab.org/experiments/energy-conservation/): Conservation of energy simulation: slide a block down a frictionless ramp and track height, speed, PE = mgh and KE = ½mv² while the total stays constant.
 - [Force and Friction Simulation & Calculator (f = μN)](https://thephysicslab.org/experiments/force-and-friction/): Force and friction simulation: set mass, push and friction coefficient to find the friction force (f = μN = μmg), net force and acceleration of a block.
+- [Free Fall Simulation: Acceleration Lab with Air Resistance](https://thephysicslab.org/experiments/free-fall/): Free fall virtual lab: drop an object under Earth, Moon, Mars or Jupiter gravity, with or without air resistance. Read fall time, speed and acceleration.
 - [Motion Graphs Simulator: Position, Velocity & Acceleration](https://thephysicslab.org/experiments/motion-graphs/): Motion graphs simulator for constant acceleration: set initial velocity and acceleration, then read position and velocity at any time from two live graphs.
 - [Ohm’s Law Simulation & Power Calculator: V = IR, P = VI](https://thephysicslab.org/experiments/ohms-law/): Ohm’s law simulation and power calculator: set the voltage and resistance of a simple circuit to find the current I = V/R and power P = VI = I²R = V²/R.
 - [Pendulum Simulation & Period Calculator: T = 2π√(L/g)](https://thephysicslab.org/experiments/pendulum/): Pendulum simulation and period calculator: change length, gravity and starting angle to find the period T = 2π√(L/g) and frequency, then watch it swing.
@@ -20,10 +21,11 @@
 
 ## Lessons
 
-- [Physics Lessons with Formulas & Worked Examples](https://thephysicslab.org/learn/): Twelve short physics lessons on motion, forces, energy, waves, circuits and optics, each with key formulas, a worked example and an interactive simulation.
+- [Physics Lessons with Formulas & Worked Examples](https://thephysicslab.org/learn/): Thirteen short physics lessons on motion, forces, energy, waves, circuits and optics, each with key formulas, a worked example and an interactive simulation.
 - [Buoyancy Formula & Archimedes’ Principle Explained](https://thephysicslab.org/learn/buoyancy/): Archimedes’ principle and the buoyancy formula F = ρgV explained: why objects float or sink, how to find the submerged fraction, and a step-by-step example.
 - [Conservation of Mechanical Energy: Formula & Worked Example](https://thephysicslab.org/learn/energy-conservation/): Conservation of mechanical energy: without friction, PE + KE stays constant, so mgh = ½mv² and v = √(2gh). Formulas, a worked ramp example and a simulation.
 - [Friction Formula f = μN: Static vs Kinetic Friction](https://thephysicslab.org/learn/force-and-friction/): Learn the friction formula f = μN (f = μmg on level ground), the difference between static and kinetic friction, and how to find the net force and acceleration.
+- [Free Fall Formulas: v = gt, h = ½gt² & Terminal Velocity](https://thephysicslab.org/learn/free-fall/): Free fall explained: why every mass falls at g without air, the formulas v = gt, h = ½gt² and t = √(2h/g), how terminal velocity arises, and a worked example.
 - [Position, Velocity & Acceleration: Equations and Graphs](https://thephysicslab.org/learn/motion-graphs/): How position, velocity and acceleration are related: read slopes and areas on motion graphs, use v = v₀ + at and x = v₀t + ½at², and follow a worked example.
 - [Ohm’s Law & Power Formulas: V = IR and P = VI = I²R](https://thephysicslab.org/learn/ohms-law/): Ohm’s law and the electrical power formula explained: V = IR, I = V/R and P = VI = I²R = V²/R, with units and a step-by-step worked example.
 - [Simple Pendulum Period Formula: T = 2π√(L/g) Explained](https://thephysicslab.org/learn/pendulum/): The simple pendulum formula T = 2π√(L/g) explained: why mass does not matter, how length and gravity change the period, and a step-by-step worked example.
@@ -48,6 +50,7 @@
 - [Buoyancy & Floating Worksheet: Free Student Activity](https://thephysicslab.org/experiments/buoyancy/activity/): Free printable buoyancy & floating worksheet for grades 7–12, about 25 minutes with the interactive simulation. No sign-up; answer key for teachers.
 - [Energy on a Ramp Worksheet: Free Student Activity](https://thephysicslab.org/experiments/energy-conservation/activity/): Free printable energy on a ramp worksheet for grades 9–12, about 25 minutes with the interactive simulation. No sign-up; answer key for teachers.
 - [Force & Friction Worksheet: Free Student Activity](https://thephysicslab.org/experiments/force-and-friction/activity/): Free printable force & friction worksheet for grades 8–12, about 20 minutes with the interactive simulation. No sign-up; answer key for teachers.
+- [Free Fall & Air Resistance Worksheet: Free Student Activity](https://thephysicslab.org/experiments/free-fall/activity/): Free printable free fall & air resistance worksheet for grades 9–12, about 25 minutes with the interactive simulation. No sign-up; answer key for teachers.
 - [Motion Graphs Worksheet: Position, Velocity & Acceleration](https://thephysicslab.org/experiments/motion-graphs/activity/): Free printable motion graphs worksheet: position, velocity & acceleration for grades 8–12, with a teacher answer key.
 - [Ohm’s Law & Electrical Power Worksheet (Free Printable)](https://thephysicslab.org/experiments/ohms-law/activity/): Free printable ohm’s law & electrical power worksheet for grades 8–12, about 20 minutes with the interactive simulation. No sign-up; answer key for teachers.
 - [Pendulum Period Worksheet: Free Student Activity](https://thephysicslab.org/experiments/pendulum/activity/): Free printable pendulum period worksheet for grades 8–12, about 20 minutes with the interactive simulation. No sign-up; answer key for teachers.

@@ -113,6 +113,15 @@ export const relatedLearning = {
       "label": "Find an earthquake’s epicenter"
     }
   ],
+  "free-fall": [
+    {
+      "app": "astronomy",
+      "path": "/labs/gravity-calculator/",
+      "title": "How strong is gravity on other worlds?",
+      "description": "The drop takes longer on the Moon and shorter on Jupiter because g is different. Compare surface gravity across the solar system in Astronomy Lab.",
+      "label": "Compare planetary gravity"
+    }
+  ],
   "force-and-friction": [
     {
       "app": "astronomy",
