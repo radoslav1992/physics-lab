@@ -85,6 +85,18 @@ export const learningApps = [
     "color": "#9a4424",
     "tint": "#f5e4d6",
     "path": "M12 40h12l4-14 6 26 5-36 6 30 4-12 4 6h15"
+  },
+  {
+    "id": "spreadsheets",
+    "name": "Cell by Cell",
+    "subject": "Spreadsheets",
+    "url": "https://cellbycell.app",
+    "description": "Learn Excel by doing. Type real formulas in a live spreadsheet and have each step checked as you work.",
+    "mark": "=SUM",
+    "caption": "formulas you type yourself",
+    "color": "#0f7a49",
+    "tint": "#e4f3ea",
+    "path": "M20 16h40v36H20z M20 28h40 M20 40h40 M34 16v36"
   }
 ];
 export const relatedLearning = {
@@ -111,6 +123,15 @@ export const relatedLearning = {
       "title": "How do waves find an earthquake?",
       "description": "P waves outrun S waves, and the gap between them grows with distance. Use that gap to locate an earthquake in Earth Science Lab.",
       "label": "Find an earthquake’s epicenter"
+    }
+  ],
+  "free-fall": [
+    {
+      "app": "astronomy",
+      "path": "/labs/gravity-calculator/",
+      "title": "How strong is gravity on other worlds?",
+      "description": "The drop takes longer on the Moon and shorter on Jupiter because g is different. Compare surface gravity across the solar system in Astronomy Lab.",
+      "label": "Compare planetary gravity"
     }
   ],
   "force-and-friction": [
