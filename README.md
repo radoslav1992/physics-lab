@@ -91,3 +91,16 @@ Cookie consent: `src/components/ConsentDefaults.astro` runs right after `AdFree`
 - `src/pages`: static routes and educational resources.
 - `src/styles`: base theme and physics-specific responsive/print styles.
 - `tests/physics.test.mjs`: physics and content regression checks; `tests/ads.test.mjs`: ad unit key checks; `tests/content.test.mjs`: search copy, symbol anchors, and the HTTPS header.
+
+## llms.txt
+
+`public/llms.txt` is a plain-text guide to the site for AI assistants (see llmstxt.org): one line per page with
+its title and description. ChatGPT is one of the site's main sources of visitors, and it can only recommend a
+tool it can read about. The file is generated from the built pages, so regenerate it after changing a title or
+description, or adding a page:
+
+```sh
+npm run build && npm run llms
+```
+
+`tests/llms.test.mjs` fails if a experiment is missing from the file.
