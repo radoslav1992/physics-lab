@@ -70,7 +70,7 @@
 ## About
 
 - [About The Physics Lab — Free Visual Physics Learning](https://thephysicslab.org/about/): The Physics Lab is a free, independent collection of interactive physics simulations, lessons, and practice. Learn how its models, numbers, and data work.
-- [Privacy Policy](https://thephysicslab.org/privacy/): How The Physics Lab handles your privacy: no accounts, Google Analytics usage statistics, Adsterra ads that may use cookies, and practice scores kept in your browser.
+- [Privacy Policy](https://thephysicslab.org/privacy/): How The Physics Lab handles your privacy: no accounts, Google Analytics usage statistics, no ads, and practice scores kept in your browser.
 
 ## Optional
 
