@@ -1,9 +1,18 @@
-// Adsterra ad units for thephysicslab.org, copied from the Adsterra publisher dashboard.
-// Ads load only on this hostname, so local and preview builds stay ad-free.
+// Adsterra ad units. Ads are switched off: the unit keys are empty, so AdSlot renders nothing (no markup,
+// no script, no requests) and AdFree does not run. The privacy, about and teacher pages say Physics Lab has
+// no ads: update them before setting keys again (tests/ads.test.mjs fails as a reminder).
+// Ads load only on `domain`, so local and preview builds stay ad-free.
 export const ads = {
   domain: 'thephysicslab.org',
   host: 'https://bauval.org',
-  leaderboard: '54e1204656b507a2419f6982871397ed', // 728×90, wide screens
-  mobile: '46bbde36cd6995b706715030e4555752', // 320×50, phones
-  rectangle: 'cbbdcdc07017b83779ce41926da4f1f9', // 300×250
+  leaderboard: '', // 728×90, wide screens
+  mobile: '', // 320×50, phones
+  rectangle: '', // 300×250
 };
+
+// The leaderboard needs both its desktop and phone sizes.
+export const adsEnabled = {
+  leaderboard: Boolean(ads.leaderboard && ads.mobile),
+  rectangle: Boolean(ads.rectangle),
+};
+export const anyAds = Object.values(adsEnabled).some(Boolean);
