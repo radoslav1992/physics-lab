@@ -49,7 +49,7 @@
 ## Classroom
 
 - [Physics Practice Problems with Answers & Explanations](https://thephysicslab.org/practice/): Free physics practice problems with answers: 100 multiple-choice questions on motion, forces, energy, waves, electricity and optics, each fully explained.
-- [The Physics Lab for Teachers: Free Simulations & Classroom Activities](https://thephysicslab.org/teachers/): Free physics simulations with printable student worksheets, answer keys and NGSS connections. Share any experiment to Google Classroom; no logins, works on Chromebooks.
+- [The Physics Lab for Teachers: Free Simulations & Activities](https://thephysicslab.org/teachers/): Free physics simulations with printable worksheets, answer keys and NGSS connections. Share any experiment to Google Classroom; no logins, works on Chromebooks.
 - [Free Printable Physics Worksheets with Answer Keys](https://thephysicslab.org/worksheets/): Free printable physics worksheets with answer keys: build an 8-, 12- or 20-question sheet by topic, or print a one-page activity on buoyancy or circuits.
 - [Buoyancy & Floating Worksheet: Free Student Activity](https://thephysicslab.org/experiments/buoyancy/activity/): Free printable buoyancy & floating worksheet for grades 7–12, about 25 minutes with the interactive simulation. No sign-up; answer key for teachers.
 - [Circular Motion & Centripetal Force Worksheet](https://thephysicslab.org/experiments/circular-motion/activity/): Free printable circular motion & centripetal force worksheet for grades 9–12, about 25 minutes with the interactive simulation. Answer key for teachers.
