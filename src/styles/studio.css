@@ -150,6 +150,7 @@ circle-lab,triangle-lab,shape-lab,exploration-lab,practice-lab,tool-catalog{disp
 .path-card p,.path-card li{font-size:15px}
 .path-card ol{display:grid;gap:10px}
 .path-card a{color:var(--ink)}
+.path-lesson{display:block;margin-top:2px;font-size:13px;line-height:1.5;color:var(--muted)}
 
 /* Practice has a clear beginning, feedback state, and celebration of progress. */
 .question-card{padding:36px;border-radius:26px;box-shadow:6px 7px 0 #f1e7d4;max-width:850px}

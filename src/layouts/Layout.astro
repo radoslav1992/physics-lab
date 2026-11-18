@@ -8,9 +8,10 @@ import AdFree from '../components/AdFree.astro';
 import { anyAds } from '../lib/ads.mjs';
 import ConsentDefaults from '../components/ConsentDefaults.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
+import {isIndexable} from '../lib/indexing.mjs';
 const sisterApps=learningApps.filter(app=>app.id!==currentApp&&app.url);
 const brand='The Physics Lab';
-const {title='Free Online Physics Simulations & Virtual Lab',description='The Physics Lab is a free virtual physics lab with interactive simulations, calculators, explanations, and practice for motion, forces, waves, circuits, and optics.',section='Explore',schemaType='WebApplication',noindex=false,ads=true}=Astro.props;
+const {title='Free Online Physics Simulations & Virtual Lab',description='The Physics Lab is a free virtual physics lab with interactive simulations, calculators, explanations, and practice for motion, forces, waves, circuits, and optics.',section='Explore',schemaType='WebApplication',noindex=!isIndexable(Astro.url.pathname),ads=true}=Astro.props;
 const url=new URL(Astro.url.pathname,Astro.site);const home=new URL('/',Astro.site).href;const isHome=Astro.url.pathname==='/';
 // Append the brand only while the whole title stays within typical search-snippet width.
 const fullTitle=title.includes(brand)||title.length+brand.length+3>60?title:`${title} | ${brand}`;
